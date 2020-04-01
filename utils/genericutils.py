@@ -1,5 +1,18 @@
 import os
 import json
+import datetime
+
+def get_time_stamp():
+    now = datetime.datetime.now() 
+    time_stamp = now.strftime("%Y_%m_%d_%H_%M")
+    return time_stamp
+
+def create_output_dir(base_operation, organization):
+    output_dir = os.path.join(base_operation, organization)
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    return output_dir
 
 def perform_cli_action(command):
     stm = os.popen(command)
@@ -8,13 +21,13 @@ def perform_cli_action(command):
         return None
     return json.loads(content)
 
-def collect_accounts(subid = None, prefix = None):
+def collect_accounts(subid_list = None, prefix = None):
     return_accounts = []
     acct_generic = perform_cli_action("az account list --all")
     for acct in acct_generic:
         if acct['state'] == 'Enabled':
-            if subid:
-                if acct['id']== subid:
+            if subid_list:
+                if acct['id'] in subid_list:
                     return_accounts.append(acct['id'])
             elif prefix:
                 if acct['name'].lower().startswith(prefix.lower()):
@@ -24,7 +37,7 @@ def collect_accounts(subid = None, prefix = None):
     return return_accounts
 
 def get_virtual_machines():
-    return perform_cli_action('az vm list --query "[].{Name:name, ResourceGroup:resourceGroup}" -o json')
+    return perform_cli_action('az vm list --query "[].{Location:location, Name:name, ResourceGroup:resourceGroup}" -o json')
   
 def get_vm_usage(region):
     command = 'az vm list-usage -l ' + region + ' --query "[].{Current:currentValue, Limit:limit, Type:name.value}" -o json'

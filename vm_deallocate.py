@@ -1,36 +1,42 @@
 import os
 import json
+import sys
+from arguments import *
+from utils.genericutils import *
 
-account_id = '8ac510a6-db5e-4a52-8b76-3543bd940029'
-account_prefix = 'ag-ce'
+'''
+    Arguments typically required
+    -org        : Organization name, used for outputs.
+    -sub_prefix : If you want all subs by prefix
+    -subs       : If you want a particular set of subscripitons 
+
+    NOTE: 
+        -subs, a list of subs to process, takes precedence over
+        the argument -sub_prefix if both are set. 
+
+        -whatif, if set, will get the accounts only. 
+'''
+
+'''
+    CALLING
+        Example - AGCE
+        python vm_deallocate.py -org AG-CE -sub_prefix ag-ce
+'''
 active_accounts = []
 
-def perform_cli_action(command):
-    stm = os.popen(command)
-    content = "".join(stm.readlines())
-    if not len(content):
-        return None
-    return json.loads(content)
+prog_aruments = ProgramArguments(sys.argv[1:])
 
+print("Collecting accounts")
+active_accounts = collect_accounts(prog_aruments.subs_to_process, prog_aruments.account_prefix)
+print("{} Accounts To Process".format(len(active_accounts)))
 
-'''
-    Code here
-'''
-print("Collect Accounts...")
-acct_generic = perform_cli_action("az account list --all")
-for acct in acct_generic:
-    if acct['state'] == 'Enabled':
-        if account_id:
-            if acct['id'] == account_id:
-                active_accounts.append(acct['name'])
-        elif account_prefix:
-            if acct['name'].lower().startswith(account_prefix.lower()):
-                active_accounts.append(acct['name'])
-        else:
-            active_accounts.append(acct['name'])
+if prog_aruments.whatif:
+    quit()
 
 for account in active_accounts:
-    print("clearing ", account)
+    print("Processing ", account)
+    continue
+
     perform_cli_action('az account set -s "{}"'.format(account))
 
     vm_list = perform_cli_action('az vm list --query "[].{Name:name, ResourceGroup:resourceGroup}" -o json')

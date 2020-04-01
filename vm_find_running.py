@@ -108,24 +108,3 @@ print("Threaded Execution Time: ", stop - start)
 print("Total: {} Running: {}".format(total_machines, running_machines))
 quit()
 
-'''
-    If you want to test the difference in timing, which can be significant
-    you can use the synchronous calls below. 
-
-    My experience was, with 13 Subscriptions and 200 VM's in them:
-    Threaded    : 2.5 minutes
-    Synchronous : 12 minutes
-
-    And that was home during the apocolypse   
-'''
-#print(execution_results)
-#for result in execution_results:
-#    print("GOT:", result.result)
-
-print("\nSynchronous...")
-start = datetime.now()
-for vm in vm_list:
-    res = parse_vm(vm.name, vm.resource_group)
-
-stop = datetime.now()
-print("Synchronous Execution Time: ", stop - start)

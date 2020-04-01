@@ -1,3 +1,14 @@
+# Dev Files
+joel/
+cores_usage/
+death_ray/
+_delete/
+cancelled_subs.json
+subs_to_delete.json
+e2e_subs.json
+testarguments.py
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
