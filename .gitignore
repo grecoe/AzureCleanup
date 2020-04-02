@@ -1,8 +1,13 @@
 # Dev Files
 joel/
 cores_usage/
+regional_usage/
 death_ray/
 _delete/
+next_steps/
+_merge_subs.py
+_problematic_subs
+next_targets.csv
 cancelled_subs.json
 subs_to_delete.json
 e2e_subs.json

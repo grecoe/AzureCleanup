@@ -35,8 +35,6 @@ reporting_data["DeletedResourceGroupCount"] = 0
 print("Collecting accounts")
 active_accounts = collect_accounts(prog_aruments.subs_to_process, prog_aruments.account_prefix)
 
-print(len(active_accounts))
-
 if len(prog_aruments.subs_already_processed):
     print("Clearing already processed subscriptions")
     for processed in prog_aruments.subs_already_processed:

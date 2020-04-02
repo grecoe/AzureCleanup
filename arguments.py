@@ -38,6 +38,7 @@ class ProgramArguments:
         self.subs_to_process = []
         self.sub_processed_file = None
         self.subs_already_processed = []
+        self.regions = []
         self.whatif = False
 
         self._parse_program_arguments()
@@ -48,6 +49,7 @@ class ProgramArguments:
         self.parser.add_argument("-sub_prefix", required=False, default=None, type=str, help="Optional Sub Prefix")
         self.parser.add_argument("-subs", required=False, default=None, type=str, help="Optional JSON file with subscriptions to process")
         self.parser.add_argument("-processed", required=False, default=None, type=str, help="Optional JSON file with subscriptions that have already been processed")
+        self.parser.add_argument("-regions", required=False, default=None, type=str, help="Used only in vm_in_region.py identifies comma separated list of regions.")
         self.parser.add_argument("-whatif", required=False, default=False, type=bool, help="When true, just dumps out what would happen.")
 
         arguments_parser = self.parser.parse_args(self.command_line)
@@ -56,6 +58,9 @@ class ProgramArguments:
         self.sub_file = arguments_parser.subs
         self.sub_processed_file = arguments_parser.processed
         self.whatif = arguments_parser.whatif
+
+        if arguments_parser.regions:
+            self.regions = arguments_parser.regions.lower().split(',')
 
         if self.sub_file:
             self.subs_to_process = self._load_json_list(self.sub_file)

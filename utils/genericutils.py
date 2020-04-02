@@ -21,19 +21,19 @@ def perform_cli_action(command):
         return None
     return json.loads(content)
 
-def collect_accounts(subid_list = None, prefix = None):
+def collect_accounts(subid_list = None, prefix = None, data_type = 'id'):
     return_accounts = []
     acct_generic = perform_cli_action("az account list --all")
     for acct in acct_generic:
         if acct['state'] == 'Enabled':
             if subid_list:
                 if acct['id'] in subid_list:
-                    return_accounts.append(acct['id'])
+                    return_accounts.append(acct[data_type])
             elif prefix:
                 if acct['name'].lower().startswith(prefix.lower()):
-                    return_accounts.append(acct['id'])
+                    return_accounts.append(acct[data_type])
             else:
-                return_accounts.append(acct['id'])
+                return_accounts.append(acct[data_type])
     return return_accounts
 
 def get_virtual_machines():
