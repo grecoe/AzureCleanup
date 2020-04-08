@@ -70,9 +70,8 @@ running_machines = 0
 total_machines = 0
 force_deallocation = False
 
-start = datetime.now()
-accounts = collect_accounts()
-quit()
+start = datetime.datetime.now()
+accounts = collect_accounts(prefix='ag-ce', data_type='name')
 
 for account in accounts:
     asyncController = AsyncController(15)
@@ -102,7 +101,7 @@ for account in accounts:
         elif isinstance(result.result, Exception) :
             print(result.result)
 
-stop = datetime.now()
+stop = datetime.datetime.now()
 
 print("Threaded Execution Time: ", stop - start)
 print("Total: {} Running: {}".format(total_machines, running_machines))

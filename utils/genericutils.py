@@ -24,6 +24,13 @@ def perform_cli_action(command):
 def collect_accounts(subid_list = None, prefix = None, data_type = 'id'):
     return_accounts = []
     acct_generic = perform_cli_action("az account list --all")
+
+    if subid_list:
+        existing_ids = [acct['id'] for acct in acct_generic]
+        for sub_id in subid_list:
+            if sub_id not in existing_ids:
+                print("Login does not have access to : ", sub_id)
+
     for acct in acct_generic:
         if acct['state'] == 'Enabled':
             if subid_list:

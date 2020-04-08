@@ -8,6 +8,8 @@ next_steps/
 _merge_subs.py
 _problematic_subs
 next_targets.csv
+next_target_parser.py
+next_targets.json
 cancelled_subs.json
 subs_to_delete.json
 e2e_subs.json

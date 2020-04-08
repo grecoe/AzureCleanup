@@ -19,7 +19,7 @@ from threadutils.Log import AsyncLog
 
     CALLING
         Example - AGCE
-        python cores_usage.py -org AG-CE -sub_prefix ag-ce
+        python vm_cores_usage.py -org AG-CE -sub_prefix ag-ce
 
 '''
 def thread_fn_get_usage(region = None):
